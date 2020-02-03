@@ -1,17 +1,25 @@
 from django.db import models
 
-class Card:
-    id = models.CharField(max_length=16, blank=False)
-    name = models.CharField(max_length=32, blank=False)
-    aka = models.CharField(max_length=32)
+
+class Card(models.Model):
+    id = models.CharField(max_length=16, blank=False, primary_key=True)
+    name = models.CharField(max_length=64, blank=False)
+    aka = models.CharField(max_length=64)
     card_type = models.CharField(max_length=32, blank=False)
 
     @property
     def image(self):
         return f'https://vtes.dirtydevelopers.org/img/{self.id}.jpg'
 
-class LibraryCard(Card, models.Model):
-    pass
 
-class CryptCard(Card, models.Model):
-    pass
+class LibraryCard(models.Model):
+    card = models.OneToOneField(Card, on_delete=models.CASCADE, primary_key=True)
+    clan = models.CharField(max_length=32)
+    discipline = models.CharField(max_length=64)
+
+
+class CryptCard(models.Model):
+    card = models.OneToOneField(Card, on_delete=models.CASCADE, primary_key=True)
+    clan = models.CharField(max_length=32)
+    advanced = models.BooleanField(default=False)
+

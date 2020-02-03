@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sw=7oxq904#1_7)gkan8p4i^qpt$_wpb6&!yxye#nxeg-uwdc^'
+SECRET_KEY = os.getenv('DJANGO_SECRET', 'sw=7oxq904#1_7)gkan8p4i^qpt$_wpb6&!yxye#nxeg-uwdc^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG_MODE', 'true').lower() in ['t', 'true', '1']
 
 ALLOWED_HOSTS = []
 
@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'vtescards',
-        'USER': 'alucard',
-        'PASSWORD': 'xxxxx',
+        'USER': os.getenv('DB_USER','test'),
+        'PASSWORD': os.getenv('DB_PASSWORD','test'),
         'HOST': '92.222.81.25',
         'PORT': '5432',
     }
