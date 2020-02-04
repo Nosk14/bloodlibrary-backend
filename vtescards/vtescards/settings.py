@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET', 'sw=7oxq904#1_7)gkan8p4i^qpt$_wpb6&!yxye
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_MODE', 'true').lower() in ['t', 'true', '1']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.dirtydevelopers.org']
 
 
 # Application definition
@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'vtescards',
-        'USER': os.getenv('DB_USER','test'),
-        'PASSWORD': os.getenv('DB_PASSWORD','test'),
+        'USER': os.getenv('DB_USER', 'test'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'test'),
         'HOST': '92.222.81.25',
         'PORT': '5432',
     }
@@ -125,3 +125,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
