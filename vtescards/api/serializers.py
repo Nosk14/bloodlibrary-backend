@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from api.models import Card
+from api.models import Card, CryptCard, LibraryCard
 
 
 class CardSerializer(ModelSerializer):
@@ -11,4 +11,18 @@ class CardSerializer(ModelSerializer):
 
     class Meta:
         model = Card
+        fields = '__all__'
+
+
+class CryptCardSerializer(ModelSerializer):
+
+    class Meta:
+        model = CryptCard
+        fields = '__all__'
+
+
+class LibraryCardSerializer(ModelSerializer):
+
+    class Meta:
+        model = LibraryCard
         fields = '__all__'
