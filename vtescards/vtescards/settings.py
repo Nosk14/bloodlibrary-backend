@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET', 'sw=7oxq904#1_7)gkan8p4i^qpt$_wpb6&!yxye
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_MODE', 'true').lower() in ['t', 'true', '1']
 
-ALLOWED_HOSTS = ['.dirtydevelopers.org']
+ALLOWED_HOSTS = ['localhost', '.dirtydevelopers.org']
 
 
 # Application definition
@@ -140,4 +140,10 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+    ]
 }

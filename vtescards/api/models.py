@@ -7,10 +7,6 @@ class Card(models.Model):
     aka = models.CharField(max_length=64)
     card_type = models.CharField(max_length=32, blank=False)
 
-    @property
-    def image(self):
-        return f'https://vtes.dirtydevelopers.org/img/{self.id}.jpg'
-
 
 class LibraryCard(models.Model):
     card = models.OneToOneField(Card, on_delete=models.CASCADE, primary_key=True)
