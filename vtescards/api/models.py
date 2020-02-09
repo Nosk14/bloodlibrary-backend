@@ -8,14 +8,12 @@ class Card(models.Model):
     card_type = models.CharField(max_length=32, blank=False)
 
 
-class LibraryCard(models.Model):
-    card = models.OneToOneField(Card, on_delete=models.CASCADE, primary_key=True)
+class LibraryCard(Card):
     clan = models.CharField(max_length=32)
     discipline = models.CharField(max_length=64)
 
 
-class CryptCard(models.Model):
-    card = models.OneToOneField(Card, on_delete=models.CASCADE, primary_key=True)
+class CryptCard(Card):
     clan = models.CharField(max_length=32)
     advanced = models.BooleanField(default=False)
 
