@@ -15,14 +15,12 @@ class CardSerializer(ModelSerializer):
 
 
 class CryptCardSerializer(CardSerializer):
-
     class Meta:
         model = CryptCard
         fields = '__all__'
 
 
 class LibraryCardSerializer(CardSerializer):
-
     class Meta:
         model = LibraryCard
         fields = '__all__'
