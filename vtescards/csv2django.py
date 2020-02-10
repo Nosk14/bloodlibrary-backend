@@ -5,7 +5,8 @@ from api.models import LibraryCard, CryptCard
 LIBRARY_CSV = 'vteslib.csv'
 CRYPT_CSV = 'vtescrypt.csv'
 
-
+print("Getting library cards...")
+n = 0
 with open(LIBRARY_CSV, 'r') as csv_library:
     next(csv_library)
     reader = csv.reader(csv_library, delimiter=',')
@@ -31,7 +32,12 @@ with open(LIBRARY_CSV, 'r') as csv_library:
                          draft=row[17] if row[17] else None,
                          )
         lc.save()
+        n+=1
+        if n % 250 == 0:
+            print("\t"+str(n))
 
+print("Getting crypt cards...")
+n = 0
 with open(CRYPT_CSV, 'r') as csv_crypt:
     next(csv_crypt)
     reader = csv.reader(csv_crypt, delimiter=',')
@@ -80,3 +86,7 @@ with open(CRYPT_CSV, 'r') as csv_crypt:
                        visceratika=int(row[41]) if row[41] else 0
                        )
         cc.save()
+        n+=1
+        if n % 250 == 0:
+            print("\t"+str(n))
+print("Done!")
