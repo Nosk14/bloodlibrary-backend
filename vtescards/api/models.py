@@ -61,3 +61,20 @@ class CryptCard(Card):
     valeren = models.IntegerField(default=0)
     vicissitude = models.IntegerField(default=0)
     visceratika = models.IntegerField(default=0)
+
+
+class Expansion(models.Model):
+    id = models.CharField(max_length=16, null=False, primary_key=True)
+    name = models.CharField(max_length=64, null=False)
+    abbreviation = models.CharField(max_length=16, null=False)
+    release_date = models.DateField(null=True)
+    icon = models.CharField(max_length=256, null=True)
+
+
+class TournamentDeck(models.Model):
+    id = models.CharField(max_length=16, null=False, primary_key=True)
+    name = models.CharField(max_length=64, null=True)
+    event = models.CharField(max_length=64, null=True)
+    player = models.CharField(max_length=64, null=True)
+    description = models.CharField(max_length=1024, null=True)
+    event_date = models.DateField(null=True)
