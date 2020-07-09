@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET', 'sw=7oxq904#1_7)gkan8p4i^qpt$_wpb6&!yxye
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_MODE', 'true').lower() in ['t', 'true', '1']
 
-ALLOWED_HOSTS = ['localhost', '.dirtydevelopers.org', '.bloodlibrary.info']
+ALLOWED_HOSTS = ['localhost', '.dirtydevelopers.org', '.bloodlibrary.info', '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'api',
+    'proxies',
     'corsheaders'
 ]
 
@@ -59,6 +60,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = [
     'GET',
+    'POST',
     'OPTIONS'
 ]
 
