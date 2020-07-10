@@ -1,4 +1,4 @@
-from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, Http404, FileResponse
+from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, HttpResponseNotFound, FileResponse
 from django.contrib.postgres.search import TrigramSimilarity
 from api.models import Card, CryptCard
 from proxies.utils import ProxyFile
@@ -62,4 +62,4 @@ def download_pdf(request, id):
         file = open(STORE_LOCATION + id + ".pdf", 'rb')
         return FileResponse(file, as_attachment=True, filename='vtes_proxies.pdf')
     except FileNotFoundError:
-        return Http404()
+        return HttpResponseNotFound()
