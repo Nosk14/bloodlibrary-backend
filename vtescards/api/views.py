@@ -30,23 +30,24 @@ class CardSearchViewSet(ReadOnlyModelViewSet):
     serializer_class = CardSerializer
 
     def get_queryset(self):
-        name_param = self.request.query_params.get('name', None)
-        if not name_param or len(name_param) < 3:
-            raise APIException(code=400, detail="Parameter 'name' must be specified with a length greater than 2.")
+        name_param = self.request.query_params.get('alias', None)
+        if not name_param or len(name_param) < 2:
+            raise APIException(code=400, detail="Parameter 'name' must be specified with a length greater than 1.")
 
         return Card.objects \
-            .annotate(similarity=TrigramSimilarity('name', name_param)) \
+            .annotate(similarity=TrigramSimilarity('alias', name_param)) \
             .filter(similarity__gt=0.20) \
             .order_by('-similarity')
 
 
 def get_card_image(request):
     name_param = request.GET.get('name', None)
-    if not name_param or len(name_param) < 3:
+    if not name_param or len(name_param) < 2:
         raise APIException(code=400, detail="Parameter 'name' must be specified with a length greater than 2.")
 
+    name_param = name_param.lower()
     cards = Card.objects \
-        .annotate(similarity=TrigramSimilarity('name', name_param)) \
+        .annotate(similarity=TrigramSimilarity('alias', name_param)) \
         .filter(similarity__gt=0.20) \
         .order_by('-similarity')
 

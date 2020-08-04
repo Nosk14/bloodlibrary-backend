@@ -5,6 +5,7 @@ class Card(models.Model):
     id = models.CharField(max_length=16, null=False, primary_key=True)
     name = models.CharField(max_length=64, null=False)
     aka = models.CharField(max_length=64, null=True)
+    alias = models.CharField(max_length=64, null=False)
     card_type = models.CharField(max_length=32, null=False)
     publish_set = models.CharField(max_length=256)
     banned = models.IntegerField(null=True)

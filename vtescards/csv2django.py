@@ -1,13 +1,12 @@
 import csv
 from api.models import LibraryCard, CryptCard
 
-
-LIBRARY_CSV = 'vteslib.csv'
-CRYPT_CSV = 'vtescrypt.csv'
+LIBRARY_CSV = 'data/vteslib.csv'
+CRYPT_CSV = 'data/vtescrypt.csv'
 
 print("Getting library cards...")
 n = 0
-with open(LIBRARY_CSV, 'r') as csv_library:
+with open(LIBRARY_CSV, 'r', encoding='utf8') as csv_library:
     next(csv_library)
     reader = csv.reader(csv_library, delimiter=',')
     for row in reader:
@@ -15,6 +14,7 @@ with open(LIBRARY_CSV, 'r') as csv_library:
         lc = LibraryCard(id=row[0],
                          name=row[1],
                          aka=row[2] if row[2] else None,
+                         alias=row[1].lower(),
                          card_type=row[3],
                          clan=row[4],
                          discipline=row[5] if row[5] else None,
@@ -32,19 +32,20 @@ with open(LIBRARY_CSV, 'r') as csv_library:
                          draft=row[17] if row[17] else None,
                          )
         lc.save()
-        n+=1
+        n += 1
         if n % 250 == 0:
-            print("\t"+str(n))
+            print("\t" + str(n))
 
 print("Getting crypt cards...")
 n = 0
-with open(CRYPT_CSV, 'r') as csv_crypt:
+with open(CRYPT_CSV, 'r', encoding='utf8') as csv_crypt:
     next(csv_crypt)
     reader = csv.reader(csv_crypt, delimiter=',')
     for row in reader:
         cc = CryptCard(id=row[0],
                        name=row[1],
                        aka=row[2] if row[2] else None,
+                       alias=row[1].lower() if not bool(row[5]) else row[1].lower() + " (adv)",
                        card_type=row[3],
                        clan=row[4],
                        advanced=bool(row[5]),
@@ -86,7 +87,8 @@ with open(CRYPT_CSV, 'r') as csv_crypt:
                        visceratika=int(row[41]) if row[41] else 0
                        )
         cc.save()
-        n+=1
+        n += 1
         if n % 250 == 0:
-            print("\t"+str(n))
+            print("\t" + str(n))
+
 print("Done!")

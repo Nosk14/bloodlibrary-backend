@@ -29,7 +29,7 @@ def generate_pdf(request):
 
     proxy_list = []
     for card in cards:
-        similar_cards = __get_similar_cards(card[1])
+        similar_cards = __get_similar_cards(card[1].lower())
         if similar_cards:
             card_id = similar_cards[0].id
             image_url = "https://bloodlibrary.info/img/proxy/" + card_id + ".jpg"
@@ -51,7 +51,7 @@ def generate_pdf(request):
 
 def __get_similar_cards(name):
     return Card.objects \
-            .annotate(similarity=TrigramSimilarity('name', name)) \
+            .annotate(similarity=TrigramSimilarity('alias', name)) \
             .filter(similarity__gt=0.20) \
             .order_by('-similarity')
 
