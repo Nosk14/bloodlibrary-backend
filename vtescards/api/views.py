@@ -30,7 +30,7 @@ class CardSearchViewSet(ReadOnlyModelViewSet):
     serializer_class = CardSerializer
 
     def get_queryset(self):
-        name_param = self.request.query_params.get('alias', None)
+        name_param = self.request.query_params.get('name', None)
         if not name_param or len(name_param) < 2:
             raise APIException(code=400, detail="Parameter 'name' must be specified with a length greater than 1.")
 
