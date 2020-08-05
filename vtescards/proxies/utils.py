@@ -30,7 +30,7 @@ class ProxyFile:
         self.id = identifier
         self.i = 0
         self.canvas = canvas.Canvas(self.id + '.pdf', pagesize=A4)
-        self.__draw_lines()
+        self.canvas.setStrokeColorRGB(0.3, 0.3, 0.3)
 
     def __draw_lines(self):
         line_len = 3.5 * mm
@@ -46,8 +46,15 @@ class ProxyFile:
         self.canvas.drawImage(image_reader, POSITIONS[self.i][0], POSITIONS[self.i][1], width=CARD_WIDTH, height=CARD_HEIGHT)
         self.i += 1
         if self.i > 8:
+            self.__draw_lines()
             self.canvas.showPage()
             self.i = 0
 
     def save(self):
+        self.__draw_lines()
         self.canvas.save()
+
+
+if __name__ == '__main__':
+    pdf = ProxyFile('asdf')
+    pdf.save()
