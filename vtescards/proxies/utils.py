@@ -44,6 +44,7 @@ class ProxyFile:
     def add_image(self, url):
         if self.should_create_page:
             self.canvas.showPage()
+            self.should_create_page = False
         response = get(url)
         image_reader = ImageReader(BytesIO(response.content))
         self.canvas.drawImage(image_reader, POSITIONS[self.i][0], POSITIONS[self.i][1], width=CARD_WIDTH, height=CARD_HEIGHT)
