@@ -22,7 +22,7 @@ services:
     networks:
        default_network:
        HTTP_SERVICES:
-         ipv4_address: "172.18.0.2"
+         ipv4_address: "172.18.0.3"
 
 networks:
   default_network:
