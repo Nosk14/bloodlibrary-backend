@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'vtescards',
-        'USER': os.getenv('DB_USER', 'test'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'test'),
+        'USER': os.getenv('DB_USER', 'bloodlibrary'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'P4ssw0rd!'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': '5432'
     }

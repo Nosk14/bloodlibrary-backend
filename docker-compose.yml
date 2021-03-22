@@ -2,8 +2,6 @@ version: "3.9"
 services:
   db:
     image: postgres:13.2
-    volumes:
-      - bloodlibrary_db:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_DB: vtescards
@@ -25,11 +23,6 @@ services:
        default_network:
        HTTP_SERVICES:
          ipv4_address: "172.18.0.2"
-    ports:
-      - "8000:8000"
-
-volumes:
-  bloodlibrary_db: {}
 
 networks:
   default_network:

@@ -1,6 +1,15 @@
 from django.db import models
 
 
+class Expansion(models.Model):
+    id = models.CharField(max_length=16, null=False, primary_key=True)
+    name = models.CharField(max_length=64, null=False)
+    abbreviation = models.CharField(max_length=16, null=False)
+    release_date = models.DateField(null=True)
+    company = models.CharField(max_length=32, null=True)
+    icon = models.CharField(max_length=256, null=True)
+
+
 class Card(models.Model):
     id = models.CharField(max_length=16, null=False, primary_key=True)
     name = models.CharField(max_length=64, null=False)
@@ -10,6 +19,7 @@ class Card(models.Model):
     publish_set = models.CharField(max_length=256)
     banned = models.IntegerField(null=True)
     artist = models.CharField(max_length=128)
+    publish_expansions = models.ManyToManyField(Expansion, through='CardExpansion', blank=True)
 
 
 class LibraryCard(Card):
@@ -64,18 +74,10 @@ class CryptCard(Card):
     visceratika = models.IntegerField(default=0)
 
 
-class Expansion(models.Model):
-    id = models.CharField(max_length=16, null=False, primary_key=True)
-    name = models.CharField(max_length=64, null=False)
-    abbreviation = models.CharField(max_length=16, null=False)
-    release_date = models.DateField(null=True)
-    icon = models.CharField(max_length=256, null=True)
+class CardExpansion(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    expansion = models.ForeignKey(Expansion, on_delete=models.CASCADE)
+    additional_information = models.CharField(max_length=32, null=True)
 
 
-class TournamentDeck(models.Model):
-    id = models.CharField(max_length=16, null=False, primary_key=True)
-    name = models.CharField(max_length=64, null=True)
-    event = models.CharField(max_length=64, null=True)
-    player = models.CharField(max_length=64, null=True)
-    description = models.CharField(max_length=1024, null=True)
-    event_date = models.DateField(null=True)
+
