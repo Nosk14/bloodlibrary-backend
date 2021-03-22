@@ -7,7 +7,7 @@ class CardSerializer(ModelSerializer):
 
     @staticmethod
     def get_image(self):
-        return f'https://vtes.dirtydevelopers.org/img/{self.id}.jpg'
+        return f'https://statics.bloodlibrary.info/img/all/{self.id}.jpg'
 
     class Meta:
         model = Card
