@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+from django.core.management.utils import get_random_secret_key
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET', 'sw=7oxq904#1_7)gkan8p4i^qpt$_wpb6&!yxye#nxeg-uwdc^')
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_MODE', 'true').lower() in ['t', 'true', '1']
@@ -92,10 +92,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'vtescards',
-        'USER': os.getenv('DB_USER', 'test'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'test'),
-        'HOST': '92.222.81.25',
-        'PORT': '5432' if not DEBUG else '5431',
+        'USER': os.getenv('DB_USER', 'bloodlibrary'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'P4ssw0rd!'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': '5432'
     }
 }
 
