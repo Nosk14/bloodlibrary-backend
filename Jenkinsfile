@@ -4,7 +4,7 @@ node {
     }
 
     stage('Stop current service') {
-        sh 'docker-compose rm --force'
+        sh 'docker-compose down --rmi local'
     }
 
     stage('Deploy'){
