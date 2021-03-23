@@ -1,6 +1,6 @@
 import csv
 from importlib.resources import open_text
-from api.models import CardExpansion, Expansion, Card
+from api.models import CardSet, Set, Card
 from django.db import migrations
 from datetime import datetime
 
@@ -16,12 +16,9 @@ def load_card_expansions(card_id, raw_expansions_field):
                 expansion_data = exp.split(':')
                 expansion_id = expansion_data[0].strip()
                 info = expansion_data[1].strip() if len(expansion_data) > 0 else None
-                try:
-                    expansion_obj = Expansion.objects.get(abbreviation=expansion_id)
-                except:
-                    a = 1
+                expansion_obj = Set.objects.get(abbreviation=expansion_id)
                 card_obj = Card.objects.get(pk=card_id)
-                CardExpansion(card=card_obj, expansion=expansion_obj, additional_information=info).save()
+                CardSet(card=card_obj, set=expansion_obj, info=info).save()
 
 
 def load_library(apps, schema_editor):
@@ -114,7 +111,7 @@ def load_expansions(apps, schema_editor):
         next(csv_sets)
         reader = csv.reader(csv_sets, delimiter=',')
         for row in reader:
-            expansion = Expansion(id=row[0],
+            expansion = Set(id=row[0],
                            abbreviation=row[1],
                            release_date=datetime.strptime(row[2], '%Y%m%d').date(),
                            name=row[3],

@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Expansion(models.Model):
+class Set(models.Model):
     id = models.CharField(max_length=16, null=False, primary_key=True)
     name = models.CharField(max_length=64, null=False)
     abbreviation = models.CharField(max_length=16, null=False)
@@ -19,7 +19,7 @@ class Card(models.Model):
     publish_set = models.CharField(max_length=256)
     banned = models.IntegerField(null=True)
     artist = models.CharField(max_length=128)
-    publish_expansions = models.ManyToManyField(Expansion, through='CardExpansion', blank=True)
+    publish_sets = models.ManyToManyField(Set, through='CardSet', blank=True)
 
 
 class LibraryCard(Card):
@@ -74,10 +74,10 @@ class CryptCard(Card):
     visceratika = models.IntegerField(default=0)
 
 
-class CardExpansion(models.Model):
+class CardSet(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
-    expansion = models.ForeignKey(Expansion, on_delete=models.CASCADE)
-    additional_information = models.CharField(max_length=32, null=True)
+    set = models.ForeignKey(Set, on_delete=models.CASCADE)
+    info = models.CharField(max_length=32, null=True)
 
 
 

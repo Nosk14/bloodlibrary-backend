@@ -1,17 +1,35 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from api.models import Card, CryptCard, LibraryCard
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, ReadOnlyField
+from api.models import Card, CryptCard, LibraryCard, CardSet, Set
+
+
+class SetSerializer(ModelSerializer):
+    class Meta:
+        model = Set
+        fields = '__all__'
+
+
+class CardExpansionSerializer(ModelSerializer):
+    set_name = ReadOnlyField(source='set.name')
+    set_abbreviation = ReadOnlyField(source='set.abbreviation')
+    image = ReadOnlyField(default=None)
+
+    class Meta:
+        model = CardSet
+        fields = ('set_name', 'set_abbreviation', 'info', 'image')
 
 
 class CardSerializer(ModelSerializer):
     image = SerializerMethodField('get_image')
+    publish_sets = CardExpansionSerializer(source='cardset_set', read_only=True, many=True, required=False)
 
     @staticmethod
-    def get_image(self):
-        return f'https://statics.bloodlibrary.info/img/all/{self.id}.jpg'
+    def get_image(obj):
+        return f'https://statics.bloodlibrary.info/img/all/{obj.id}.jpg'
 
     class Meta:
         model = Card
-        fields = '__all__'
+        exclude = ('publish_set', )
+        depth = 2
 
 
 class CryptCardSerializer(CardSerializer):
