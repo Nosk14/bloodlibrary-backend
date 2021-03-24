@@ -3,8 +3,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import redirect
 from django.contrib.postgres.search import TrigramSimilarity
-from api.models import Card, CryptCard, LibraryCard
-from api.serializers import CardSerializer, CryptCardSerializer, LibraryCardSerializer
+from api.models import Card, CryptCard, LibraryCard, Set
+from api.serializers import CardSerializer, CryptCardSerializer, LibraryCardSerializer, SetSerializer
 
 
 class CardViewSet(ReadOnlyModelViewSet):
@@ -23,6 +23,12 @@ class LibraryCardViewSet(ReadOnlyModelViewSet):
     queryset = LibraryCard.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = LibraryCardSerializer
+
+
+class SetViewSet(ReadOnlyModelViewSet):
+    queryset = Set.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = SetSerializer
 
 
 class CardSearchViewSet(ReadOnlyModelViewSet):

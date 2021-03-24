@@ -2,10 +2,13 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField, R
 from api.models import Card, CryptCard, LibraryCard, CardSet, Set
 
 
-class SetSerializer(ModelSerializer):
+class SetCardListSerializer(ModelSerializer):
+    id = ReadOnlyField(source='card.id')
+    name = ReadOnlyField(source='card.name')
+
     class Meta:
-        model = Set
-        fields = '__all__'
+        model = CardSet
+        fields = ('id', 'name', 'image')
 
 
 class CardExpansionSerializer(ModelSerializer):
@@ -15,6 +18,14 @@ class CardExpansionSerializer(ModelSerializer):
     class Meta:
         model = CardSet
         fields = ('set_name', 'set_abbreviation', 'info', 'image')
+
+
+class SetSerializer(ModelSerializer):
+    cards = SetCardListSerializer(source='cardset_set', read_only=True, many=True, required=False)
+
+    class Meta:
+        model = Set
+        fields = ('id', 'name', 'abbreviation', 'release_date', 'company', 'icon', 'cards')
 
 
 class CardSerializer(ModelSerializer):
@@ -27,7 +38,7 @@ class CardSerializer(ModelSerializer):
 
     class Meta:
         model = Card
-        exclude = ('publish_set', )
+        fields = ('id', 'name', 'aka', 'card_type', 'banned', 'artist', 'image', 'publish_sets')
 
 
 class CryptCardSerializer(CardSerializer):
