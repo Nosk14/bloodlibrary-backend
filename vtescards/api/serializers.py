@@ -11,7 +11,6 @@ class SetSerializer(ModelSerializer):
 class CardExpansionSerializer(ModelSerializer):
     set_name = ReadOnlyField(source='set.name')
     set_abbreviation = ReadOnlyField(source='set.abbreviation')
-    image = ReadOnlyField(default=None)
 
     class Meta:
         model = CardSet
@@ -29,7 +28,6 @@ class CardSerializer(ModelSerializer):
     class Meta:
         model = Card
         exclude = ('publish_set', )
-        depth = 2
 
 
 class CryptCardSerializer(CardSerializer):

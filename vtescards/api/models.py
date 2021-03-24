@@ -9,6 +9,9 @@ class Set(models.Model):
     company = models.CharField(max_length=32, null=True)
     icon = models.CharField(max_length=256, null=True)
 
+    def __str__(self):
+        return f"Set({self.id}, {self.name}, {self.abbreviation})"
+
 
 class Card(models.Model):
     id = models.CharField(max_length=16, null=False, primary_key=True)
@@ -78,6 +81,7 @@ class CardSet(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     set = models.ForeignKey(Set, on_delete=models.CASCADE)
     info = models.CharField(max_length=32, null=True)
+    image = models.CharField(max_length=128, null=True)
 
 
 

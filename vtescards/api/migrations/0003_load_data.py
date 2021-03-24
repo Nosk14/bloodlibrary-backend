@@ -4,6 +4,7 @@ from api.models import CardSet, Set, Card
 from django.db import migrations
 from datetime import datetime
 
+
 PACKAGE = 'api.data'
 
 
@@ -12,13 +13,12 @@ def load_card_expansions(card_id, raw_expansions_field):
         expansions = raw_expansions_field.split(',')
         for expansion in expansions:
             exp = expansion.strip()
-            if not (exp.startswith("Promo") or exp.startswith("POD")):
-                expansion_data = exp.split(':')
-                expansion_id = expansion_data[0].strip()
-                info = expansion_data[1].strip() if len(expansion_data) > 0 else None
-                expansion_obj = Set.objects.get(abbreviation=expansion_id)
-                card_obj = Card.objects.get(pk=card_id)
-                CardSet(card=card_obj, set=expansion_obj, info=info).save()
+            expansion_data = exp.split('-' if exp.startswith("Promo") else ':')
+            expansion_id = expansion_data[0].strip()
+            info = expansion_data[1].strip() if len(expansion_data) > 0 else None
+            set_obj = Set.objects.get(abbreviation=expansion_id)
+            card_obj = Card.objects.get(pk=card_id)
+            CardSet(card=card_obj, set=set_obj, info=info, image=None).save()
 
 
 def load_library(apps, schema_editor):
@@ -119,6 +119,14 @@ def load_expansions(apps, schema_editor):
                            icon=None
                            )
             expansion.save()
+    Set(id='399998',
+        abbreviation='Promo',
+        name='Promo'
+        ).save()
+    Set(id='399999',
+        abbreviation='POD',
+        name='Print on Demand'
+        ).save()
 
 
 class Migration(migrations.Migration):
