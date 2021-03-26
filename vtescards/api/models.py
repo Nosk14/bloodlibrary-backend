@@ -12,6 +12,9 @@ class Set(models.Model):
     def __str__(self):
         return f"Set({self.id}, {self.name}, {self.abbreviation})"
 
+    class Meta:
+        ordering = ['id']
+
 
 class Card(models.Model):
     id = models.CharField(max_length=16, null=False, primary_key=True)
