@@ -29,7 +29,8 @@ class ProxyFile:
     def __init__(self, identifier):
         self.id = identifier
         self.i = 0
-        self.canvas = canvas.Canvas(self.id + '.pdf', pagesize=A4)
+        self.buffer = BytesIO()
+        self.canvas = canvas.Canvas(self.buffer, pagesize=A4)
         self.canvas.setStrokeColorRGB(0.3, 0.3, 0.3)
         self.should_create_page = False
 
@@ -57,6 +58,10 @@ class ProxyFile:
     def save(self):
         self.__draw_lines()
         self.canvas.save()
+
+    def serve_buffer(self):
+        self.buffer.seek(0)
+        return self.buffer
 
 
 if __name__ == '__main__':
