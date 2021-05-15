@@ -6,7 +6,7 @@ import uuid
 import json
 
 STORE_LOCATION = '/tmp/'
-IMG_TEMPALTE = "https://statics.bloodlibrary.info/img/all/{0}.jpg"
+IMG_TEMPALTE = "https://statics.bloodlibrary.info/img/proxy/{0}.jpg"
 
 
 @csrf_exempt
