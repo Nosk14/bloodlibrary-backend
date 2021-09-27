@@ -41,11 +41,11 @@ def load_library(apps, schema_editor):
                              card_text=row[10],
                              flavor_text=row[11] if row[11] else None,
                              publish_set=row[12] if row[12] else None,
-                             requirement=row[13] if row[13] else None,
-                             banned=int(row[14]) if row[14] else None,
-                             artist=row[15],
-                             capacity=row[16] if row[16] else None,
-                             draft=row[17] if row[17] else None,
+                             requirement=None,
+                             banned=int(row[13]) if row[13] else None,
+                             artist=row[14],
+                             capacity=row[15] if row[15] else None,
+                             draft=None,
                              )
             lc.save()
 
@@ -72,35 +72,7 @@ def load_crypt(apps, schema_editor):
                            publish_set=row[10],
                            title=row[11] if row[11] else None,
                            banned=int(row[12]) if row[12] else None,
-                           artist=row[13],
-                           abombwe=int(row[14]) if row[14] else 0,
-                           animalism=int(row[15]) if row[15] else 0,
-                           auspex=int(row[16]) if row[16] else 0,
-                           celerity=int(row[17]) if row[17] else 0,
-                           chimerstry=int(row[18]) if row[18] else 0,
-                           daimoinon=int(row[19]) if row[19] else 0,
-                           dementation=int(row[20]) if row[20] else 0,
-                           dominate=int(row[21]) if row[21] else 0,
-                           fortitude=int(row[22]) if row[22] else 0,
-                           melpominee=int(row[23]) if row[23] else 0,
-                           mytherceria=int(row[24]) if row[24] else 0,
-                           necromancy=int(row[25]) if row[25] else 0,
-                           obeah=int(row[26]) if row[26] else 0,
-                           obfuscate=int(row[27]) if row[27] else 0,
-                           obtenebration=int(row[28]) if row[28] else 0,
-                           potence=int(row[29]) if row[29] else 0,
-                           presence=int(row[30]) if row[30] else 0,
-                           protean=int(row[31]) if row[31] else 0,
-                           quietus=int(row[32]) if row[32] else 0,
-                           sanguinus=int(row[33]) if row[33] else 0,
-                           serpentis=int(row[34]) if row[34] else 0,
-                           spiritus=int(row[35]) if row[35] else 0,
-                           temporis=int(row[36]) if row[36] else 0,
-                           thanatosis=int(row[37]) if row[37] else 0,
-                           thaumaturgy=int(row[38]) if row[38] else 0,
-                           valeren=int(row[39]) if row[39] else 0,
-                           vicissitude=int(row[40]) if row[40] else 0,
-                           visceratika=int(row[41]) if row[41] else 0
+                           artist=row[13]
                            )
             cc.save()
             load_card_expansions(row[0], row[10])
