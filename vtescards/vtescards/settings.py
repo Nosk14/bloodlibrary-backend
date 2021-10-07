@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'django_filters',
+    'django_prometheus',
     'api',
     'proxies',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware'
+    'django.middleware.common.CommonMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

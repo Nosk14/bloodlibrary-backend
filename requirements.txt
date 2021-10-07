@@ -5,3 +5,4 @@ psycopg2-binary==2.8.6
 django-cors-headers==3.7.0
 reportlab==3.5.66
 requests==2.25.1
+django-prometheus==2.1.0

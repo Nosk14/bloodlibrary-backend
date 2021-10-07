@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('api/', include('api.urls')),
-    path('proxy/', include('proxies.urls'))
+    path('proxy/', include('proxies.urls')),
+    path('', include('django_prometheus.urls')),
 ]
