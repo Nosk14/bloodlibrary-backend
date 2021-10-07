@@ -26,8 +26,7 @@ POSITIONS = [
 
 class ProxyFile:
 
-    def __init__(self, identifier):
-        self.id = identifier
+    def __init__(self):
         self.i = 0
         self.buffer = BytesIO()
         self.canvas = canvas.Canvas(self.buffer, pagesize=A4)
