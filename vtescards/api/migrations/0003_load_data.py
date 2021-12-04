@@ -57,25 +57,35 @@ def load_crypt(apps, schema_editor):
     with open_text(PACKAGE, 'vtescrypt.csv', encoding='utf8') as csv_crypt:
         next(csv_crypt)
         reader = csv.reader(csv_crypt, delimiter=',')
-        for row in reader:
-            cc = CryptCard(id=row[0],
-                           name=row[1],
-                           aka=row[2] if row[2] else None,
-                           alias=row[1] if not bool(row[5]) else row[1] + " (ADV)",
-                           card_type=row[3],
-                           clan=row[4],
-                           advanced=bool(row[5]),
-                           group_id=row[6],
-                           capacity=int(row[7]),
-                           disciplines=row[8],
-                           card_text=row[9],
-                           publish_set=row[10],
-                           title=row[11] if row[11] else None,
-                           banned=int(row[12]) if row[12] else None,
-                           artist=row[13]
-                           )
+        crypt_cards = [
+            CryptCard(id=row[0],
+                      name=row[1],
+                      aka=row[2] if row[2] else None,
+                      alias=row[1] if not bool(row[5]) else row[1] + " (ADV)",
+                      card_type=row[3],
+                      clan=row[4],
+                      advanced=bool(row[5]),
+                      group_id=row[6],
+                      capacity=int(row[7]),
+                      disciplines=row[8],
+                      card_text=row[9],
+                      publish_set=row[10],
+                      title=row[11] if row[11] else None,
+                      banned=int(row[12]) if row[12] else None,
+                      artist=row[13]
+                      )
+            for row in reader
+        ]
+        crypt_cards.sort(key=lambda card: card.id)
+        used_aliases = set()
+        for cc in crypt_cards:
+            if not cc.advanced:
+                if cc.alias in used_aliases:
+                    cc.alias = f"{cc.alias} (G{cc.group_id})"
+                else:
+                    used_aliases.add(cc.alias)
             cc.save()
-            load_card_expansions(row[0], row[10])
+            load_card_expansions(cc.id, cc.publish_set)  # id - publish_set
 
 
 def load_expansions(apps, schema_editor):

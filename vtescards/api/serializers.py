@@ -38,7 +38,7 @@ class CardSerializer(ModelSerializer):
 
     class Meta:
         model = Card
-        fields = ('id', 'name', 'aka', 'card_type', 'banned', 'artist', 'image', 'publish_sets')
+        fields = ('id', 'name', 'aka', 'alias', 'card_type', 'banned', 'artist', 'image', 'publish_sets')
 
 
 class CryptCardSerializer(CardSerializer):
