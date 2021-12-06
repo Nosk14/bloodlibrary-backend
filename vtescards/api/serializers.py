@@ -12,12 +12,13 @@ class SetCardListSerializer(ModelSerializer):
 
 
 class CardExpansionSerializer(ModelSerializer):
+    set_id = ReadOnlyField(source='set.id')
     set_name = ReadOnlyField(source='set.name')
     set_abbreviation = ReadOnlyField(source='set.abbreviation')
 
     class Meta:
         model = CardSet
-        fields = ('set_name', 'set_abbreviation', 'info', 'image')
+        fields = ('set_id', 'set_name', 'set_abbreviation', 'info', 'image')
 
 
 class SetSerializer(ModelSerializer):
