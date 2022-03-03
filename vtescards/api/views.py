@@ -60,5 +60,6 @@ def get_card_image(request):
     if not cards:
         raise APIException(code=404, detail="No cards found")
 
-    img_link = f'https://vtes.dirtydevelopers.org/img/{cards[0].id}.jpg'
+    img_link = cards[0].cardset_set.exclude(image='').order_by('-id')[0].image
+
     return redirect(img_link)
