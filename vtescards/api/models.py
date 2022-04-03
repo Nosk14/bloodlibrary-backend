@@ -27,6 +27,9 @@ class Card(models.Model):
     artist = models.CharField(max_length=128)
     publish_sets = models.ManyToManyField(Set, through='CardSet', blank=True)
 
+    def __str__(self):
+        return f"Card({self.id}, {self.alias})"
+
 
 class LibraryCard(Card):
     clan = models.CharField(max_length=32, null=True)
@@ -85,6 +88,9 @@ class CardSet(models.Model):
     set = models.ForeignKey(Set, on_delete=models.CASCADE)
     info = models.CharField(max_length=32, null=True)
     image = models.CharField(max_length=128, null=True)
+
+    def __str__(self):
+        return f"CardSet({self.card.alias}, {self.set.abbreviation})"
 
 
 

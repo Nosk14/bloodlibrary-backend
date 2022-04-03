@@ -109,6 +109,10 @@ def load_expansions(apps, schema_editor):
         abbreviation='POD',
         name='Print on Demand'
         ).save()
+    Set(id='399997',
+        abbreviation='CUSTOM',
+        name='CUSTOM'
+        ).save()
 
 
 class Migration(migrations.Migration):
