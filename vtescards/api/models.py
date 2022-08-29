@@ -22,7 +22,7 @@ class Card(models.Model):
     aka = models.CharField(max_length=64, null=True)
     alias = models.CharField(max_length=64, null=False)
     card_type = models.CharField(max_length=32, null=False)
-    publish_set = models.CharField(max_length=256)
+    publish_set = models.CharField(max_length=512)
     banned = models.IntegerField(null=True)
     artist = models.CharField(max_length=128)
     publish_sets = models.ManyToManyField(Set, through='CardSet', blank=True)
