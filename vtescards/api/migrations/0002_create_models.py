@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('aka', models.CharField(max_length=64, null=True)),
                 ('alias', models.CharField(max_length=64)),
                 ('card_type', models.CharField(max_length=32)),
-                ('publish_set', models.CharField(max_length=256)),
+                ('publish_set', models.CharField(max_length=512)),
                 ('banned', models.IntegerField(null=True)),
                 ('artist', models.CharField(max_length=128)),
             ],
