@@ -10,6 +10,7 @@ CARD_HEIGHT = 88 * mm
 CARD_WIDTH = 63 * mm
 MARGIN_LEFT = 10 * mm
 MARGIN_BOT = 15 * mm
+LINE_COLOR = (1, 1, 1)
 
 POSITIONS = [
     (MARGIN_LEFT, MARGIN_BOT + CARD_HEIGHT * 2),
@@ -30,7 +31,7 @@ class ProxyFile:
         self.i = 0
         self.buffer = BytesIO()
         self.canvas = canvas.Canvas(self.buffer, pagesize=A4)
-        self.canvas.setStrokeColorRGB(0.3, 0.3, 0.3)
+        self.canvas.setStrokeColorRGB(*LINE_COLOR)
         self.should_create_page = False
 
     def __draw_lines(self):
@@ -64,5 +65,5 @@ class ProxyFile:
 
 
 if __name__ == '__main__':
-    pdf = ProxyFile('asdf')
+    pdf = ProxyFile()
     pdf.save()
