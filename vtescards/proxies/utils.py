@@ -10,7 +10,7 @@ CARD_HEIGHT = 88 * mm
 CARD_WIDTH = 63 * mm
 MARGIN_LEFT = 10 * mm
 MARGIN_BOT = 15 * mm
-LINE_COLOR = (1, 1, 1)
+DEFAULT_LINE_COLOR = (1, 1, 1)
 
 POSITIONS = [
     (MARGIN_LEFT, MARGIN_BOT + CARD_HEIGHT * 2),
@@ -27,11 +27,11 @@ POSITIONS = [
 
 class ProxyFile:
 
-    def __init__(self):
+    def __init__(self, line_color=DEFAULT_LINE_COLOR):
         self.i = 0
         self.buffer = BytesIO()
         self.canvas = canvas.Canvas(self.buffer, pagesize=A4)
-        self.canvas.setStrokeColorRGB(*LINE_COLOR)
+        self.canvas.setStrokeColor(line_color)
         self.should_create_page = False
 
     def __draw_lines(self):

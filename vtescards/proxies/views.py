@@ -20,8 +20,10 @@ def generate_pdf(request):
     if not rq_data:
         return HttpResponseBadRequest()
 
-    proxy_file = ProxyFile()
-    for card in rq_data:
+    cards = rq_data['cards']
+    line_color = rq_data.get('lineColor', "#FFFFFF")
+    proxy_file = ProxyFile(line_color=line_color)
+    for card in cards:
         if 'set' in card and card['set']:
             result = CardSet.objects \
                 .filter(card_id=card['id'], set_id=card['set']) \
@@ -44,7 +46,7 @@ def generate_pdf(request):
     proxy_file.save()
 
     generated_pdfs.inc()
-    for card in rq_data:
+    for card in cards:
         single_card_counter.labels(card_id=card['id']).inc(card['amount'])
 
     return FileResponse(proxy_file.serve_buffer(), as_attachment=True, filename='vtes_proxies.pdf')
