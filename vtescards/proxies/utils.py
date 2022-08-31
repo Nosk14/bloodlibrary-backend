@@ -29,9 +29,10 @@ class ProxyFile:
 
     def __init__(self, line_color=DEFAULT_LINE_COLOR):
         self.i = 0
+        self.line_color = line_color
         self.buffer = BytesIO()
         self.canvas = canvas.Canvas(self.buffer, pagesize=A4)
-        self.canvas.setStrokeColor(line_color)
+        self.canvas.setStrokeColor(self.line_color)
         self.should_create_page = False
 
     def __draw_lines(self):
@@ -45,6 +46,7 @@ class ProxyFile:
     def add_image(self, url):
         if self.should_create_page:
             self.canvas.showPage()
+            self.canvas.setStrokeColor(self.line_color)
             self.should_create_page = False
         response = get(url)
         image_reader = ImageReader(BytesIO(response.content))
