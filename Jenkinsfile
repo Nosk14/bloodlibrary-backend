@@ -8,7 +8,9 @@ node {
     }
 
     stage('Deploy'){
-        sh 'docker-compose up -d --build --force-recreate'
+        withCredentials([usernamePassword(credentialsId: 'vtes-statics-credentials', usernameVariable: 'statics-user', passwordVariable: 'statics-password')]) {
+            sh 'docker-compose up -d --build --force-recreate'
+        }
     }
 }
 
