@@ -19,8 +19,8 @@ services:
       DB_USER: bloodlibrary
       DB_PASSWORD: P4ssw0rd!
       DB_HOST: db
-      STATICS_USER: "${statics-user}"
-      STATICS_PASSWORD: "${statics-password}"
+      STATICS_USER: ${STATICS_USER}
+      STATICS_PASSWORD: ${STATICS_PASSWORD}
     networks:
        default_network:
        HTTP_SERVICES:
