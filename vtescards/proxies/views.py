@@ -23,25 +23,33 @@ def generate_pdf(request):
     cards = rq_data['cards']
     line_color = rq_data.get('lineColor', "#FFFFFF")
     proxy_file = ProxyFile(line_color=line_color)
+
+    is_tester = __has_tester_permissions(request.headers.get('Authorization', ""))
+
     for card in cards:
-        if 'set' in card and card['set']:
-            result = CardSet.objects \
-                .filter(card_id=card['id'], set_id=card['set']) \
-                .exclude(image=None)
-            result = list(result)
-
-            if not result:
-                return HttpResponseBadRequest()
-
-            card_image = result[0].image
+        if __is_tester_card(card['id']) and is_tester:
+            needs_authorization = True
+            card_image = f"https://statics.bloodlibrary.info/testers/{card['id']}.jpeg"
         else:
-            card_image = CardSet.objects\
-                .filter(card_id=card['id'])\
-                .exclude(image=None)\
-                .order_by('-set_id')[0].image
+            needs_authorization = False
+            if 'set' in card and card['set']:
+                result = CardSet.objects \
+                    .filter(card_id=card['id'], set_id=card['set']) \
+                    .exclude(image=None)
+                result = list(result)
+
+                if not result:
+                    return HttpResponseBadRequest()
+
+                card_image = result[0].image
+            else:
+                card_image = CardSet.objects\
+                    .filter(card_id=card['id'])\
+                    .exclude(image=None)\
+                    .order_by('-set_id')[0].image
 
         for _ in range(card['amount']):
-            proxy_file.add_image(card_image)
+            proxy_file.add_image(card_image, needs_authorization=needs_authorization)
 
     proxy_file.save()
 
@@ -50,3 +58,11 @@ def generate_pdf(request):
         single_card_counter.labels(card_id=card['id']).inc(card['amount'])
 
     return FileResponse(proxy_file.serve_buffer(), as_attachment=True, filename='vtes_proxies.pdf')
+
+
+def __is_tester_card(card_id):
+    return card_id[0] == "0"
+
+
+def __has_tester_permissions(token):
+    return True

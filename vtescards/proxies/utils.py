@@ -4,6 +4,8 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from io import BytesIO
 from requests import get
+from requests.auth import HTTPBasicAuth
+import os
 
 
 CARD_HEIGHT = 88 * mm
@@ -43,13 +45,19 @@ class ProxyFile:
         self.canvas.line(POSITIONS[0][0] - line_len, POSITIONS[0][1], POSITIONS[2][0] + CARD_WIDTH + line_len, POSITIONS[2][1])
         self.canvas.line(POSITIONS[3][0] - line_len, POSITIONS[3][1], POSITIONS[5][0] + CARD_WIDTH + line_len, POSITIONS[5][1])
 
-    def add_image(self, url):
+    def add_image(self, url, needs_authorization=False):
         if self.should_create_page:
             self.canvas.showPage()
             self.canvas.setStrokeColor(self.line_color)
             self.should_create_page = False
-        response = get(url)
+        if needs_authorization:
+            auth = HTTPBasicAuth(os.getenv('STATICS_USER'), os.getenv('STATICS_PASSWORD'))
+            response = get(url, auth=auth)
+        else:
+            response = get(url)
+
         image_reader = ImageReader(BytesIO(response.content))
+
         self.canvas.drawImage(image_reader, POSITIONS[self.i][0], POSITIONS[self.i][1], width=CARD_WIDTH, height=CARD_HEIGHT)
         self.i += 1
         if self.i > 8:
