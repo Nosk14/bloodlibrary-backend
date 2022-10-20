@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
     atomic = False
 
     dependencies = [
-        ('api', '0004_load_card_set_images'),
+        ('api', '0006_auto_20220904_1514'),
     ]
 
     operations = [
