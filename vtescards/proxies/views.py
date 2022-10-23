@@ -6,8 +6,6 @@ from prometheus_client import Counter
 from api.models import CardSet
 import json
 
-IMG_TEMPLATE = "https://statics.bloodlibrary.info/img/proxy/{0}.jpg"
-
 generated_pdfs = Counter("bloodlibrary_generated_pdfs", "Amount of successful calls to PDF generation endpoint.")
 single_card_counter = Counter("bloodlibrary_single_card_proxies", "Amount of times a single card has been printed as a proxy.", ['card_id'])
 
