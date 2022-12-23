@@ -93,4 +93,7 @@ class CardSet(models.Model):
         return f"CardSet({self.card.alias}, {self.set.abbreviation})"
 
 
-
+class PrivateCard(models.Model):
+    id = models.CharField(max_length=16, null=False, primary_key=True)
+    name = models.CharField(max_length=64, null=False)
+    alias = models.CharField(max_length=64, null=False)
