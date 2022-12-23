@@ -9,10 +9,9 @@ node {
 
     stage('Deploy'){
         withCredentials([usernamePassword(credentialsId: 'vtes-statics-credentials', usernameVariable: 'staticsuser', passwordVariable: 'staticspassword')]) {
-            sh "STATICS_USER=${staticsuser} STATICS_PASSWORD=${staticspassword} PRIVATE_CARDS='${vtes-private-cards}' docker-compose up -d --build --force-recreate"
+            withCredentials([string(credentialsId: 'vtes-private-cards', variable: 'pcards')]) {
+                sh "STATICS_USER=${staticsuser} STATICS_PASSWORD=${staticspassword} PRIVATE_CARDS=\"${pcards}\" docker-compose up -d --build --force-recreate"
+            }
         }
     }
 }
-
-
-

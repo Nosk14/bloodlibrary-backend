@@ -9,9 +9,10 @@ def load_private_cards(apps, schema_editor):
     PrivateCard = apps.get_model('api', 'PrivateCard')
     raw_cards = os.getenv('PRIVATE_CARDS', None)
     if raw_cards:
-        private_cards = json.loads(raw_cards)
-        for card in private_cards:
-            PrivateCard(id=card['id'], name=card['name'], alias=card['alias']).save()
+        single_raws = raw_cards.split('@')
+        for card in single_raws:
+            id, name, alias = card.split('#')
+            PrivateCard(id=id, name=name, alias=alias).save()
 
 
 class Migration(migrations.Migration):

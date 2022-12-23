@@ -21,6 +21,7 @@ services:
       DB_HOST: db
       STATICS_USER: ${STATICS_USER}
       STATICS_PASSWORD: ${STATICS_PASSWORD}
+      PRIVATE_CARDS: ${PRIVATE_CARDS}
     networks:
        default_network:
        HTTP_SERVICES:
