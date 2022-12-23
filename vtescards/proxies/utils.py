@@ -6,6 +6,7 @@ from io import BytesIO
 from requests import get
 from requests.auth import HTTPBasicAuth
 import os
+import jwt
 
 
 CARD_HEIGHT = 88 * mm
@@ -72,6 +73,22 @@ class ProxyFile:
     def serve_buffer(self):
         self.buffer.seek(0)
         return self.buffer
+
+
+def is_tester(token):
+    if not token:
+        return False
+    return __is_valid_token(token) and __has_tester_permission(token)
+
+
+def __is_valid_token(token):
+    rs = get('http://api.vtesdecks.com/1.0/user/validate', headers={'Authorization': token})
+    return rs.status_code == 200 and rs.text == 'true'
+
+
+def __has_tester_permission(token):
+    result = jwt.decode(token, options={"verify_signature": False})
+    return 'tester' in result and result['tester']
 
 
 if __name__ == '__main__':

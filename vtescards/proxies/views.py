@@ -1,5 +1,5 @@
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, HttpResponseNotFound, FileResponse
-from proxies.utils import ProxyFile
+from proxies.utils import ProxyFile, is_tester
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from prometheus_client import Counter
@@ -24,12 +24,15 @@ def generate_pdf(request):
     line_color = rq_data.get('lineColor', "#FFFFFF")
     proxy_file = ProxyFile(line_color=line_color)
 
-    is_tester = __has_tester_permissions(request.headers.get('Authorization', ""))
+    parse_tester_cards = is_tester(request.headers.get('Authorization', "")) if any(__is_tester_card(card) for card in cards) else False
 
     for card in cards:
-        if __is_tester_card(card['id']) and is_tester:
-            needs_authorization = True
-            card_image = f"https://statics.bloodlibrary.info/testers/{card['id']}.jpeg"
+        if __is_tester_card(card):
+            if parse_tester_cards:
+                needs_authorization = True
+                card_image = f"https://statics.bloodlibrary.info/testers/{card['id']}.jpeg"
+            else:
+                continue
         else:
             needs_authorization = False
             if 'set' in card and card['set']:
@@ -60,9 +63,5 @@ def generate_pdf(request):
     return FileResponse(proxy_file.serve_buffer(), as_attachment=True, filename='vtes_proxies.pdf')
 
 
-def __is_tester_card(card_id):
-    return card_id[0] == "0"
-
-
-def __has_tester_permissions(token):
-    return True
+def __is_tester_card(card):
+    return card['id'].startswith('21') or card['id'].startswith('11')
