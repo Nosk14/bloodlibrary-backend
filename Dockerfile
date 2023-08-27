@@ -5,5 +5,4 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install gunicorn==20.1.0
 COPY vtescards/ /usr/local/app/
 WORKDIR /usr/local/app/
-RUN python3 manage.py collectstatic --noinput
-CMD echo "Waiting to start" && sleep 15 && echo "Starting..." && python3 manage.py migrate && gunicorn -w 1 -b 0.0.0.0:8000 vtescards.wsgi
+CMD echo "Waiting to start" && sleep 15 && echo "Starting..." && python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn -w 1 -b 0.0.0.0:8000 vtescards.wsgi
