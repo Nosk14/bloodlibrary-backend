@@ -7,6 +7,8 @@ services:
       POSTGRES_DB: vtescards
       POSTGRES_USER: bloodlibrary
       POSTGRES_PASSWORD: P4ssw0rd!
+    volumes:
+      - dbdata:/var/lib/postgresql/data
     networks:
       - default_network
 
@@ -32,3 +34,6 @@ networks:
       driver: bridge
   HTTP_SERVICES:
           external: true
+
+volumes:
+  dbdata:
