@@ -26,7 +26,7 @@ SECRET_KEY = get_random_secret_key()
 DEBUG = os.getenv('DEBUG_MODE', 'true').lower() in ['t', 'true', '1']
 
 ALLOWED_HOSTS = ['localhost', '.dirtydevelopers.org', '.bloodlibrary.info', '127.0.0.1']
-
+CSRF_TRUSTED_ORIGINS = ['*.bloodlibrary.info']
 
 # Application definition
 
