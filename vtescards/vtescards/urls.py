@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('proxy/', include('proxies.urls')),
     path('', include('django_prometheus.urls')),
+    path('decks/', include('decks.urls')),
 ]

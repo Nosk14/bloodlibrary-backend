@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_prometheus',
     'api',
     'proxies',
+    'decks',
     'corsheaders',
 ]
 
