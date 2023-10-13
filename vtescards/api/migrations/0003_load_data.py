@@ -13,7 +13,7 @@ def load_card_expansions(card_id, raw_expansions_field):
         expansions = raw_expansions_field.split(',')
         for expansion in expansions:
             exp = expansion.strip()
-            expansion_data = exp.split('-' if exp.startswith("Promo") else ':')
+            expansion_data = exp.split(':')
             expansion_id = expansion_data[0].strip()
             info = expansion_data[1].strip() if len(expansion_data) > 0 else None
             set_obj = Set.objects.get(abbreviation=expansion_id)
@@ -101,10 +101,7 @@ def load_expansions(apps, schema_editor):
                            icon=None
                            )
             expansion.save()
-    Set(id='399998',
-        abbreviation='Promo',
-        name='Promo'
-        ).save()
+
     Set(id='399999',
         abbreviation='POD',
         name='Print on Demand'
