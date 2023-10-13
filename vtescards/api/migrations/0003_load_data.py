@@ -15,7 +15,7 @@ def load_card_expansions(card_id, raw_expansions_field):
             exp = expansion.strip()
             expansion_data = exp.split(':')
             expansion_id = expansion_data[0].strip()
-            info = expansion_data[1].strip() if len(expansion_data) > 0 else None
+            info = None if len(expansion_data) < 1 else expansion_data[1].strip()
             set_obj = Set.objects.get(abbreviation=expansion_id)
             card_obj = Card.objects.get(pk=card_id)
             CardSet(card=card_obj, set=set_obj, info=info, image=None).save()
