@@ -102,7 +102,7 @@ DATABASES = {
         'USER': os.getenv('DB_USER', 'bloodlibrary'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'P4ssw0rd!'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': '5432'
+        'PORT': os.getenv('DB_PORT', '5432')
     }
 }
 
