@@ -10,3 +10,4 @@ class CardShop(models.Model):
 
     class Meta:
         unique_together = ('card', 'shop',)
+        ordering = ('shop', )
