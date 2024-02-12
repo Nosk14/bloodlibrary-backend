@@ -11,6 +11,5 @@ router.register('sets', SetViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('image', get_card_image)
+    path('image', get_card_image),
 ]
-

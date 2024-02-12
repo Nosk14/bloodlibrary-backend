@@ -22,4 +22,5 @@ urlpatterns = [
     path('proxy/', include('proxies.urls')),
     path('', include('django_prometheus.urls')),
     path('decks/', include('decks.urls')),
+    path('pod/', include('pod.urls')),
 ]

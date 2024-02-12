@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'api',
     'proxies',
     'decks',
+    'pod',
     'corsheaders',
 ]
 
