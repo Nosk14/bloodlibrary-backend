@@ -23,11 +23,9 @@ services:
       DB_HOST: db
       STATICS_USER: ${STATICS_USER}
       STATICS_PASSWORD: ${STATICS_PASSWORD}
-      PRIVATE_CARDS: ${PRIVATE_CARDS}
     networks:
        default_network:
        HTTP_SERVICES:
-         ipv4_address: 172.18.0.3
 
 networks:
   default_network:
