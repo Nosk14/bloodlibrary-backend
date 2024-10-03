@@ -22,5 +22,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(load_private_cards)
+          # migrations.RunPython(load_private_cards)
     ]

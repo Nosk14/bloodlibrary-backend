@@ -5,7 +5,7 @@ from multiprocessing.pool import ThreadPool
 import requests
 
 
-def check_image(set_id):
+def check_icon_image(set_id):
     img_url = 'https://statics.bloodlibrary.info/img/icons/{0}.gif'.format(set_id)
     rs = requests.head(img_url)
     if rs.status_code == 200:
@@ -14,13 +14,13 @@ def check_image(set_id):
         return None
 
 
-def update_all_images(apps, schema_editor):
+def update_all_icon_images(apps, schema_editor):
     Set = apps.get_model('api', 'Set')
     sets = list(Set.objects.all())
     parsed_sets = [zet.id for zet in sets]
 
     pool = ThreadPool(processes=16)
-    results = pool.map(check_image, parsed_sets)
+    results = pool.map(check_icon_image, parsed_sets)
     pool.close()
     pool.join()
 
@@ -42,5 +42,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update_all_images)
+        # migrations.RunPython(update_all_icon_images)
     ]
