@@ -61,6 +61,11 @@ class CardSet(models.Model):
     info = models.CharField(max_length=64, null=True)
     image = models.CharField(max_length=128, null=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['card', 'set', 'info', 'image'], name="unique_cardset"),
+        ]
+
     def __str__(self):
         return f"CardSet({self.card.alias}, {self.set.abbreviation})"
 
