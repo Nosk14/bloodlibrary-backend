@@ -3,7 +3,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import redirect
 from django.contrib.postgres.search import TrigramSimilarity
-from api.models import Card, CryptCard, LibraryCard, Set, PrivateCard
+from api.models import Card, CryptCard, LibraryCard, Set
 from api.serializers import CardSerializer, CryptCardSerializer, LibraryCardSerializer, SetSerializer
 
 
