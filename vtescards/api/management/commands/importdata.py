@@ -17,7 +17,7 @@ class Command(BaseCommand):
         self.stdout.write("Loading expansions...")
         load_expansions()
         self.stdout.write("Loading library...")
-        # load_library()
+        load_library()
         self.stdout.write("Loading crypt...")
         load_crypt()
         self.stdout.write("Loading images...")
@@ -34,7 +34,6 @@ def _load_card_expansions(card_id, raw_expansions_field):
             exp = expansion.strip()
             expansion_data = exp.split(':')
             expansion_id = expansion_data[0].strip()
-            print(expansion_id)
             info = None if len(expansion_data) < 2 else expansion_data[1].strip()
             set_obj = Set.objects.get(abbreviation=expansion_id)
             card_obj = Card.objects.get(pk=card_id)
@@ -97,7 +96,6 @@ def load_crypt():
         crypt_cards.sort(key=lambda card: card.id)
         used_aliases = set()
         for cc in crypt_cards:
-            print(cc.name)
             if not cc.advanced:
                 if cc.alias in used_aliases:
                     cc.alias = f"{cc.alias} (G{cc.group_id})"
