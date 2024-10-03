@@ -10,7 +10,7 @@ class CardSetInline(admin.TabularInline):
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
-    fields = ('id', 'name', 'alias')
+    list_display = ('id', 'name', 'alias')
     filter_horizontal = ('publish_sets',)
     inlines = (CardSetInline,)
 
@@ -20,5 +20,8 @@ class SetAdmin(admin.ModelAdmin):
     inlines = (CardSetInline,)
 
 
+@admin.register(CardSet)
+class CardSetAdmin(admin.ModelAdmin):
+    list_display = ('card', 'set', 'info', 'image')
 
 
