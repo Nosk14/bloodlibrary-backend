@@ -39,10 +39,9 @@ class Command(BaseCommand):
                 info = None if len(expansion_data) < 2 else expansion_data[1].strip()
                 set_obj = Set.objects.get(abbreviation=expansion_id)
                 card_obj = Card.objects.get(pk=card_id)
-                try:
+                exists = CardSet.objects.filter(card=card_obj, set=set_obj, info=info).count()
+                if not exists:
                     CardSet(card=card_obj, set=set_obj, info=info, image=None).save()
-                except IntegrityError as ex:
-                    self.stdout.write(ex)
 
     def load_library(self):
         with open_text(PACKAGE, 'vteslib.csv', encoding='utf8') as csv_library:
