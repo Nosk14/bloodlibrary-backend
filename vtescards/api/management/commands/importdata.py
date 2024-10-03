@@ -131,35 +131,22 @@ class Command(BaseCommand):
             name='CUSTOM'
             ).save()
 
-    def check_image(self, card_set):
-        cardset_id, set_abbreviation, card_id = card_set
+    def check_image(self, cardset_id, set_abbreviation, card_id):
         if set_abbreviation.lower().startswith('promo-'):
             set_abbreviation = 'promo'
         card_set_img = 'https://statics.bloodlibrary.info/img/sets/{0}/{1}.jpg'.format(set_abbreviation.lower(), card_id)
         rs = requests.head(card_set_img)
         if rs.status_code == 200:
-            return cardset_id, card_set_img
+            return card_set_img
         else:
             return None
 
     def update_all_images(self):
-        #cardsets = list(CardSet.objects.all())
-        cardsets = list(CardSet.objects.filter(Q(image__isnull=True) | Q(image='')))
-        parsed_cardsets = [(cardset.id, cardset.set.abbreviation, cardset.card.id) for cardset in cardsets]
-
-        pool = ThreadPool(processes=4)
-        results = pool.map(self.check_image, parsed_cardsets)
-        pool.close()
-        pool.join()
-
-        indexed_objects = {cs.id: cs for cs in cardsets}
-        objects_to_update = []
-        for result in results:
-            if result:
-                cardset = indexed_objects[result[0]]
-                cardset.image = result[1]
-                objects_to_update.append(cardset)
-        CardSet.objects.bulk_update(objects_to_update, ['image'])
+        for cardset in CardSet.objects.filter(Q(image__isnull=True) | Q(image='')).iterator(chunk_size=250):
+            img_link = self.check_image(cardset.id, cardset.set.abbreviation, cardset.card_id)
+            if img_link:
+                cardset.image = img_link
+                cardset.save()
 
     def check_icon_image(self, set_id):
         img_url = 'https://statics.bloodlibrary.info/img/icons/{0}.gif'.format(set_id)
