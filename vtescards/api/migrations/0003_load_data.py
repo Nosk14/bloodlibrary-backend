@@ -119,7 +119,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(load_expansions),
-        migrations.RunPython(load_library),
-        migrations.RunPython(load_crypt),
+        # migrations.RunPython(load_expansions),
+        # migrations.RunPython(load_library),
+        # migrations.RunPython(load_crypt),
     ]
