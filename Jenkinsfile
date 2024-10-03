@@ -4,13 +4,13 @@ node {
     }
 
     stage('Stop current service') {
-        sh 'docker-compose down --rmi local'
+        sh 'docker compose down --rmi local'
     }
 
     stage('Deploy'){
         withCredentials([usernamePassword(credentialsId: 'vtes-statics-credentials', usernameVariable: 'staticsuser', passwordVariable: 'staticspassword')]) {
             withCredentials([string(credentialsId: 'vtes-private-cards', variable: 'pcards')]) {
-                sh "STATICS_USER=${staticsuser} STATICS_PASSWORD=${staticspassword} PRIVATE_CARDS=\"${pcards}\" docker-compose up -d --build --force-recreate"
+                sh "STATICS_USER=${staticsuser} STATICS_PASSWORD=${staticspassword} PRIVATE_CARDS=\"${pcards}\" docker compose up -d --build --force-recreate"
             }
         }
     }
