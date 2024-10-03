@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.contrib.postgres.search import TrigramSimilarity
 from api.models import Card, CryptCard, LibraryCard, Set, PrivateCard
 from api.serializers import CardSerializer, CryptCardSerializer, LibraryCardSerializer, SetSerializer
-from proxies.utils import is_tester
 
 
 class CardViewSet(ReadOnlyModelViewSet):
@@ -45,16 +44,6 @@ class CardSearchViewSet(ReadOnlyModelViewSet):
             .annotate(similarity=TrigramSimilarity('alias', name_param)) \
             .filter(similarity__gt=0.25) \
             .order_by('-similarity')
-
-        if is_tester(self.request.headers.get('Authorization', None)):
-            private_cards = PrivateCard.objects \
-                .annotate(similarity=TrigramSimilarity('alias', name_param)) \
-                .filter(similarity__gt=0.25) \
-                .order_by('-similarity')
-            private_cards = [
-                Card(id=pc.id, name=pc.name, alias=pc.alias) for pc in private_cards
-            ]
-            return list(private_cards) + list(result)
 
         return result
 

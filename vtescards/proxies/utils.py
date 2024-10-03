@@ -4,8 +4,6 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from io import BytesIO
 from requests import get
-from requests.auth import HTTPBasicAuth
-import os
 import jwt
 
 
@@ -46,17 +44,13 @@ class ProxyFile:
         self.canvas.line(POSITIONS[0][0] - line_len, POSITIONS[0][1], POSITIONS[2][0] + CARD_WIDTH + line_len, POSITIONS[2][1])
         self.canvas.line(POSITIONS[3][0] - line_len, POSITIONS[3][1], POSITIONS[5][0] + CARD_WIDTH + line_len, POSITIONS[5][1])
 
-    def add_image(self, url, needs_authorization=False):
+    def add_image(self, url):
         if self.should_create_page:
             self.canvas.showPage()
             self.canvas.setStrokeColor(self.line_color)
             self.should_create_page = False
-        if needs_authorization:
-            auth = HTTPBasicAuth(os.getenv('STATICS_USER'), os.getenv('STATICS_PASSWORD'))
-            response = get(url, auth=auth)
-        else:
-            response = get(url)
 
+        response = get(url)
         image_reader = ImageReader(BytesIO(response.content))
 
         self.canvas.drawImage(image_reader, POSITIONS[self.i][0], POSITIONS[self.i][1], width=CARD_WIDTH, height=CARD_HEIGHT)
@@ -73,22 +67,6 @@ class ProxyFile:
     def serve_buffer(self):
         self.buffer.seek(0)
         return self.buffer
-
-
-def is_tester(token):
-    if not token:
-        return False
-    return __is_valid_token(token) and __has_tester_permission(token)
-
-
-def __is_valid_token(token):
-    rs = get('http://api.vtesdecks.com/1.0/user/validate', headers={'Authorization': token})
-    return rs.status_code == 200 and rs.text == 'true'
-
-
-def __has_tester_permission(token):
-    result = jwt.decode(token, options={"verify_signature": False})
-    return 'tester' in result and result['tester']
 
 
 if __name__ == '__main__':
