@@ -147,7 +147,7 @@ def update_all_images():
     cardsets = list(CardSet.objects.filter(Q(image__isnull=True) | Q(image='')))
     parsed_cardsets = [(cardset.id, cardset.set.abbreviation, cardset.card.id) for cardset in cardsets]
 
-    pool = ThreadPool(processes=16)
+    pool = ThreadPool(processes=4)
     results = pool.map(check_image, parsed_cardsets)
     pool.close()
     pool.join()
@@ -175,7 +175,7 @@ def update_all_icon_images():
     sets = list(Set.objects.all())
     parsed_sets = [zet.id for zet in sets]
 
-    pool = ThreadPool(processes=16)
+    pool = ThreadPool(processes=4)
     results = pool.map(check_icon_image, parsed_sets)
     pool.close()
     pool.join()
