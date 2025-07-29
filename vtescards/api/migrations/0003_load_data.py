@@ -10,7 +10,7 @@ PACKAGE = 'api.data'
 
 def load_card_expansions(card_id, raw_expansions_field):
     if raw_expansions_field:
-        expansions = raw_expansions_field.split(',')
+        expansions = set(raw_expansions_field.split(','))
         link_to_promo_set = False
         for expansion in expansions:
             exp = expansion.strip()
@@ -22,10 +22,10 @@ def load_card_expansions(card_id, raw_expansions_field):
             expansion_id = expansion_data[0].strip()
             info = None if len(expansion_data) < 2 else expansion_data[1].strip()
             set_obj = Set.objects.get(abbreviation=expansion_id)
-            CardSet.objects.update_or_create(card_id=card_id, set=set_obj, info=info, image=None)
+            CardSet(card_id=card_id, set=set_obj, info=info, image=None).save()
 
         if link_to_promo_set:
-            CardSet.objects.update_or_create(card_id=card_id, set_id=399997, info="", image=None)
+            CardSet(card_id=card_id, set_id=399997, info="", image=None).save()
 
 
 def load_library(apps, schema_editor):
