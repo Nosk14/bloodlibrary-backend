@@ -11,14 +11,21 @@ PACKAGE = 'api.data'
 def load_card_expansions(card_id, raw_expansions_field):
     if raw_expansions_field:
         expansions = raw_expansions_field.split(',')
+        link_to_promo_set = False
         for expansion in expansions:
             exp = expansion.strip()
+            if exp.lower().startswith("promo"):
+                link_to_promo_set = True
+                continue
+
             expansion_data = exp.split(':')
             expansion_id = expansion_data[0].strip()
             info = None if len(expansion_data) < 2 else expansion_data[1].strip()
             set_obj = Set.objects.get(abbreviation=expansion_id)
-            card_obj = Card.objects.get(pk=card_id)
-            CardSet(card=card_obj, set=set_obj, info=info, image=None).save()
+            CardSet(card_id=card_id, set=set_obj, info=info, image=None).save()
+
+        if link_to_promo_set:
+            CardSet(card=card_id, set_id=399997, info="", image=None).save()
 
 
 def load_library(apps, schema_editor):
@@ -93,23 +100,50 @@ def load_expansions(apps, schema_editor):
         next(csv_sets)
         reader = csv.reader(csv_sets, delimiter=',')
         for row in reader:
-            expansion = Set(id=row[0],
-                           abbreviation=row[1],
-                           release_date=datetime.strptime(row[2], '%Y%m%d').date(),
-                           name=row[3],
-                           company=row[4],
-                           icon=None
-                           )
-            expansion.save()
+            if not row[1].startswith("Promo"):
+                expansion = Set(id=row[0],
+                               abbreviation=row[1],
+                               release_date=datetime.strptime(row[2], '%Y%m%d').date(),
+                               name=row[3],
+                               company=row[4],
+                               icon=None
+                               )
+                expansion.save()
 
     Set(id='399999',
+        abbreviation='CUSTOM',
+        name='CUSTOM'
+        ).save()
+    Set(id='399998',
         abbreviation='POD',
         name='Print on Demand'
         ).save()
     Set(id='399997',
-        abbreviation='CUSTOM',
-        name='CUSTOM'
+        abbreviation='promo',
+        name='Promo'
         ).save()
+    Set(id='399996',
+        abbreviation='pfa',
+        name='Promo Full Art'
+        ).save()
+    Set(id='399995',
+        abbreviation='bcpbc',
+        name='BCP Business Cards'
+        ).save()
+
+
+def load_full_arts(apps, schema_editor):
+    with open_text(PACKAGE, 'fullarts.csv', encoding='utf8') as csv_file:
+        next(csv_file)
+        reader = csv.reader(csv_file, delimiter=',')
+        for row in reader:
+            CardSet(card=row[0], set_id=399996, info="", image=None).save()
+
+    with open_text(PACKAGE, 'bcp_business_cards.csv', encoding='utf8') as csv_file:
+        next(csv_file)
+        reader = csv.reader(csv_file, delimiter=',')
+        for row in reader:
+            CardSet(card=row[0], set_id=399995, info="", image=None).save()
 
 
 class Migration(migrations.Migration):
@@ -119,7 +153,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.RunPython(load_expansions),
-        # migrations.RunPython(load_library),
-        # migrations.RunPython(load_crypt),
+        migrations.RunPython(load_expansions),
+        migrations.RunPython(load_library),
+        migrations.RunPython(load_crypt),
+        migrations.RunPython(load_full_arts),
     ]

@@ -7,8 +7,6 @@ import requests
 
 def check_image(card_set):
     cardset_id, set_abbreviation, card_id = card_set
-    if set_abbreviation.lower().startswith('promo-'):
-        set_abbreviation = 'promo'
     card_set_img = 'https://statics.bloodlibrary.info/img/sets/{0}/{1}.jpg'.format(set_abbreviation.lower(), card_id)
     rs = requests.head(card_set_img)
     if rs.status_code == 200:
