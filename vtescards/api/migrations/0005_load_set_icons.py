@@ -42,5 +42,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.RunPython(update_all_icon_images)
+        migrations.RunPython(update_all_icon_images)
     ]

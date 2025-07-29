@@ -39,5 +39,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-         # migrations.RunPython(add_tokens)
+         migrations.RunPython(add_tokens)
     ]
