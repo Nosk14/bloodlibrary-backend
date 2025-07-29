@@ -25,7 +25,7 @@ def load_card_expansions(card_id, raw_expansions_field):
             CardSet(card_id=card_id, set=set_obj, info=info, image=None).save()
 
         if link_to_promo_set:
-            CardSet(card=card_id, set_id=399997, info="", image=None).save()
+            CardSet(card_id=card_id, set_id=399997, info="", image=None).save()
 
 
 def load_library(apps, schema_editor):
@@ -137,13 +137,13 @@ def load_full_arts(apps, schema_editor):
         next(csv_file)
         reader = csv.reader(csv_file, delimiter=',')
         for row in reader:
-            CardSet(card=row[0], set_id=399996, info="", image=None).save()
+            CardSet(card_id=row[0], set_id=399996, info="", image=None).save()
 
     with open_text(PACKAGE, 'bcp_business_cards.csv', encoding='utf8') as csv_file:
         next(csv_file)
         reader = csv.reader(csv_file, delimiter=',')
         for row in reader:
-            CardSet(card=row[0], set_id=399995, info="", image=None).save()
+            CardSet(card_id=row[0], set_id=399995, info="", image=None).save()
 
 
 class Migration(migrations.Migration):
