@@ -10,15 +10,14 @@ PACKAGE = 'api.data'
 
 def load_card_expansions(card_id, raw_expansions_field):
     if raw_expansions_field:
-        expansions = set(raw_expansions_field.split(','))
+        expansions = set([exp.strip() for exp in raw_expansions_field.split(',')])
         link_to_promo_set = False
         for expansion in expansions:
-            exp = expansion.strip()
-            if exp.lower().startswith("promo"):
+            if expansion.lower().startswith("promo"):
                 link_to_promo_set = True
                 continue
 
-            expansion_data = exp.split(':')
+            expansion_data = expansion.split(':')
             expansion_id = expansion_data[0].strip()
             info = None if len(expansion_data) < 2 else expansion_data[1].strip()
             set_obj = Set.objects.get(abbreviation=expansion_id)
